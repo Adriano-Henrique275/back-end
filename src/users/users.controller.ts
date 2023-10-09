@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user/user';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,6 +14,11 @@ export class UsersController {
     async listarTodos(): Promise<User[]> {
     return this.usersService.listarTodos();
     }
+
+    @Get("/email")
+    async buscarPorEmail(@Query() query: { email: string } ): Promise<User> {
+        return this.usersService.buscarPorEmail({ email: query.email });
+    } 
 
     @Post()
     async criar(@Body() user: User): Promise<User> {
