@@ -12,6 +12,10 @@ export class UsersService {
     async listarTodos(): Promise<User[]> {
       return this.userModel.find().exec();
     }
+
+    async buscarPorEmail({ email }: { email: string } ): Promise<User> {
+      return await this.userModel.findOne({ email });
+    }
   
     async criar(user: User): Promise<User> {
       const userCriado = new this.userModel(user);
