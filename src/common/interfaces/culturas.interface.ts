@@ -1,3 +1,4 @@
-export class ICulturas {
-    teste: string;
+export interface ICulturas extends Document {
+  name: string;
+  category: string;
 }

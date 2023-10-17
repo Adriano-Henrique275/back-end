@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { User } from './user/user';
 import { ApiTags } from '@nestjs/swagger';
+import { UserDTO } from './user/dto/user.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -9,34 +9,34 @@ export class UsersController {
     constructor(
         private readonly usersService: UsersService
     ) {}
-    
-    @Get()
-    async listarTodos(): Promise<User[]> {
-    return this.usersService.listarTodos();
-    }
 
     @Get("/email")
-    async buscarPorEmail(@Query() query: { email: string } ): Promise<User> {
+    async buscarPorEmail(@Query() query: { email: string } ) {
         return this.usersService.buscarPorEmail({ email: query.email });
-    } 
+    }
 
     @Post()
-    async criar(@Body() user: User): Promise<User> {
-    return this.usersService.criar(user);
+    create(@Body() userDTO: UserDTO ) {
+        return this.usersService.create(userDTO);
+    }
+
+    @Get()
+    findAll() {
+        return this.usersService.findAll();
     }
 
     @Get(':id')
-    async buscarPorId(@Param('id') id: string): Promise<User> {
-    return this.usersService.buscarPorId(id);
+    findOne(@Param('id') id: String) {
+        return this.usersService.findOne(id as string);
     }
 
     @Put(':id')
-    async atualizar(@Param('id') id: string, @Body() userAtualizado: User): Promise<User> {
-    return this.usersService.atualizar(id, userAtualizado);
+    update(@Param('id') id: string, @Body() userDTO: UserDTO) {
+        return this.usersService.update(id, userDTO);
     }
 
     @Delete(':id')
-    async remover(@Param('id') id: string): Promise<User> {
-    return this.usersService.remover(id);
+    async delete(@Param('id') id: string) {
+        return this.usersService.delete(id);
     }
 }
